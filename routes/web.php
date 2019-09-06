@@ -11,18 +11,19 @@
 |
 */
 
+
+
+
 Route::get('/', 'LoginController@index');
 
 
-Route::post('/setfoo/set-session', 'PageController@setSession')->name('setfoo.set');
 
 Auth::routes();
 
-Route::group(['middleware' => ['check-foo']], function(){
-    Route::get('/setfoo', 'PageController@index')->name('setfoo');
+Route::post('/setfoo/set-session', 'PageController@setSession')->name('setfoo.set');
 
+Route::group(['middleware' => ['auth','check-foo']], function(){
+    Route::get('/setfoo', 'PageController@index')->name('setfoo');
     Route::get('/home', 'HomeController@index')->name('home');
 
 });
-
-

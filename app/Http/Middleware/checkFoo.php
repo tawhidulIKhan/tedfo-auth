@@ -15,13 +15,18 @@ class checkFoo
      */
     public function handle($request, Closure $next)
     {
-        if($request->session()->exists('foo') && $request->route()->getName() === 'setfoo'){
-            return redirect()->route('home');
+
+        if(!$request->session()->exists('foo') && $request->route()->getName() === 'setfoo'){
+
+            return $next($request);
         }
 
-        if(!$request->session()->exists('foo')){
+
+        if(!session()->has('foo')){
             session()->flash('foo-warning', 'You must set foo to continue.');
+            return redirect()->route('setfoo');
         }
+
 
 
         return $next($request);
